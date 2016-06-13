@@ -1,2 +1,2 @@
-# gifcountdown
-Gif countdown timers
+# Gif countdown timers
+Using rmagick
