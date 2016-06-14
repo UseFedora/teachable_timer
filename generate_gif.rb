@@ -8,16 +8,51 @@ require "fileutils"
 
 start_point = 0
 end_point = 99
-caption_text = "minutes"
+caption_text = "seconds"
 
-frames_folder = "tmp/frames/#{caption_text}"
-FileUtils.mkdir_p(frames_folder)
+captions = [:days, :hours, :minutes, :seconds]
 
 # generate the frames
+caption_text = "seconds"
+frames_folder = "tmp/frames/#{caption_text}"
+FileUtils.mkdir_p(frames_folder)
+end_point = 60
+start_point = 0
 (start_point..end_point).to_a.each do |i|
-  generator = GifTimer::ClockNumber.new(number: i, max: i)
+  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
   generator.generate_image(folder: frames_folder)
 end
+
+caption_text = "minutes"
+frames_folder = "tmp/frames/#{caption_text}"
+FileUtils.mkdir_p(frames_folder)
+end_point = 60
+start_point = 0
+(start_point..end_point).to_a.each do |i|
+  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
+  generator.generate_image(folder: frames_folder)
+end
+
+caption_text = "hours"
+frames_folder = "tmp/frames/#{caption_text}"
+FileUtils.mkdir_p(frames_folder)
+end_point = 24
+start_point = 0
+(start_point..end_point).to_a.each do |i|
+  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
+  generator.generate_image(folder: frames_folder)
+end
+
+caption_text = "days"
+frames_folder = "tmp/frames/#{caption_text}"
+FileUtils.mkdir_p(frames_folder)
+end_point = 99
+start_point = 0
+(start_point..end_point).to_a.each do |i|
+  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
+  generator.generate_image(folder: frames_folder)
+end
+
 
 #GifTimer::ClockNumber.generate(number: i, folder: frames_folder)
 # combine the frames into one image
