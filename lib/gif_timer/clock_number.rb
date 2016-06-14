@@ -2,13 +2,15 @@ require "rmagick"
 module GifTimer
   class ClockNumber
     attr_reader :canvas, :width, :height, :font_family, :fill, :point_size, :text
-    def initialize(background_color: "white",
+    def initialize(
                    width: 250,
                    height: 250,
                    number: 12,
                    max: 60,
                    font_family: "helvetica",
                    point_size: 32,
+                   caption_point_size: 14,
+                   caption_text: "minutes"
                    fill: "blue"
                    )
       @width = width
@@ -18,6 +20,8 @@ module GifTimer
       @percent_complete = number.to_f/max
       @font_family = font_family
       @point_size = point_size
+      @caption_point_size = caption_point_size
+      @caption_text = caption_text
       @fill = fill
       @canvas = Magick::ImageList.new
       @canvas.new_image(width, height)
@@ -29,17 +33,28 @@ module GifTimer
     end
 
     def generate_image(folder:)
-      add_text_layer
+      add_time_remaining_text
+      add_caption_text
       add_circle if @number > 0
       canvas.write("#{folder}/#{@number}.gif")
     end
 
-    def add_text_layer
+    def add_time_remaining_text
       text_layer = Magick::Draw.new
       text_layer.font_family = font_family
       text_layer.pointsize = point_size
       text_layer.gravity = Magick::CenterGravity
       text_layer.annotate(@canvas, 0,0,0,0, text) {
+        self.fill = "blue"
+      }
+    end
+
+    def add_caption_text
+      text_layer = Magick::Draw.new
+      text_layer.font_family = font_family
+      text_layer.pointsize = @caption_point_size
+      text_layer.gravity = Magick::CenterGravity
+      text_layer.annotate(@canvas, 0,0,0,25, @caption_text) {
         self.fill = "blue"
       }
     end
