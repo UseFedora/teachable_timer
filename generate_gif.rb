@@ -29,3 +29,15 @@ image_list.delay = 100
 # Write gif to file
 image_list.write("proof_of_concept.gif")
 =end
+
+
+
+def combine_images(image_paths=["tmp/0.gif","tmp/1.gif"])
+  image_row = Magick::ImageList.new
+  image_canvas = Magick::ImageList.new
+  image_paths.each do |path|
+    image = Magick::Image.read(path).first
+    image_row.push(image)
+  end
+  image_canvas.push(image_row.append(false))
+end
