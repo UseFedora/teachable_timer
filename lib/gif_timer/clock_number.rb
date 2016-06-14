@@ -1,47 +1,52 @@
 require "rmagick"
+
 module GifTimer
+
   class ClockNumber
+
     attr_reader :canvas, :width, :height, :font_family, :fill, :point_size, :text
+
     def initialize(
-                   width: 250,
-                   height: 250,
+                   width: 800,
+                   height: 800,
                    number: 12,
                    max: 60,
                    font_family: "helvetica",
-                   point_size: 32,
-                   caption_point_size: 14,
-                   caption_text: "minutes",
-                   fill: "blue"
+                   point_size: 192,
+                   caption_point_size: 84,
+                   caption_text: "DAYS",
+                   fill: "black"
                    )
       @width = width
       @height = height
       @number = number
-      @text = pad_number(num: @number)
-      @percent_complete = number.to_f/max
+      @max = (max == 0) ? 1 : max
+      percentage = @number.to_f/@max
+      #@percent_complete = percentage.nan? ? 1.0 : percentage
+      @percent_complete = percentage.nan? ? 1.0 : 1.0 # for 0 circle
+      @text = pad_number(number: @number)
       @font_family = font_family
       @point_size = point_size
       @caption_point_size = caption_point_size
       @caption_text = caption_text
       @fill = fill
       @canvas = Magick::ImageList.new
-      @canvas.new_image(width, height)
+      @canvas.new_image(@width, @height)
     end
 
-    def pad_number(num: 0)
-      result = num
-      result = "0#{num}" if num < 10
-      result.to_s
+    def pad_number(number: 0)
+      (number < 10) ? "0#{number}" : number.to_s
     end
 
     def self.generate(number:, folder:)
-      image = new(number: number)
+      image = new(number: number).scale!(0.5)
       image.generate_image(folder: folder)
     end
 
     def generate_image(folder:)
       add_time_remaining_text
       add_caption_text
-      add_circle if @number > 0
+      add_circle if @number >= 0
       canvas.write("#{folder}/#{@number}.gif")
     end
 
@@ -50,9 +55,8 @@ module GifTimer
       text_layer.font_family = font_family
       text_layer.pointsize = point_size
       text_layer.gravity = Magick::CenterGravity
-      text_layer.annotate(@canvas, 0,0,0,0, text) {
-        self.fill = "blue"
-      }
+      text_layer.fill = @fill
+      text_layer.annotate(@canvas, 0,0,0,0, text)
     end
 
     def add_caption_text
@@ -60,16 +64,15 @@ module GifTimer
       text_layer.font_family = font_family
       text_layer.pointsize = @caption_point_size
       text_layer.gravity = Magick::CenterGravity
-      text_layer.annotate(@canvas, 0,0,0,50, @caption_text) {
-        self.fill = "blue"
-      }
+      text_layer.fill = @fill
+      text_layer.annotate(@canvas, 0,0,0,324, @caption_text)
     end
 
     def add_circle
       radius = @height / 3.2
       degrees_complete = (@percent_complete * 360).to_i
       circle = Magick::Draw.new
-      circle.stroke(fill)
+      circle.stroke(@fill)
       circle.fill_opacity(0)
       circle.stroke_width(6)
       circle.stroke_linecap('round')
@@ -77,4 +80,5 @@ module GifTimer
       circle.draw(@canvas)
     end
   end
+
 end
