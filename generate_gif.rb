@@ -41,6 +41,14 @@ def combine_images(image_paths=["tmp/0.gif","tmp/1.gif"])
   image_canvas.push(image_row.append(false))
 end
 
+=begin
+durations = {:days=>27, :hours=>23, :minutes=>57, :seconds=>11},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>10},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>9},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>3},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>2},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>1},
+=end
 
 end_time = Time.now + 60*60*24*28
 begin_time = Time.now
@@ -48,26 +56,9 @@ diff_time = begin_time - end_time
 
 durations = create_durations(diff_time)
 
-=begin
-
-{:days=>27, :hours=>23, :minutes=>57, :seconds=>11},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>10},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>9},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>8},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>7},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>6},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>5},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>4},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>3},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>2},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>1},
-
-=end
-
 durations.each do |duration|
 
   # {:days=>27, :hours=>23, :minutes=>57, :seconds=>1}
-
   duration.each_pair do |part, time|
 
     combine_images(["tmp/0.gif","tmp/1.gif"])
@@ -75,7 +66,6 @@ durations.each do |duration|
   end
 
 end
-
 
 
 def time_parts(duration_in_seconds)
