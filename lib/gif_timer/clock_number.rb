@@ -21,7 +21,6 @@ module GifTimer
       @height = height
       @number = number
       @max = max
-      #@max = (max == 0) ? 1 : max
       percentage = @number.to_f/@max
       @percent_complete = percentage.nan? ? 1.0 : percentage
       #@percent_complete = percentage.nan? ? 1.0 : 1.0 # for 0 circle
@@ -29,7 +28,7 @@ module GifTimer
       @font_family = font_family
       @point_size = point_size
       @caption_point_size = caption_point_size
-      @caption_text = caption_text
+      @caption_text = caption_text.upcase
       @fill = fill
       @canvas = Magick::ImageList.new
       @canvas.new_image(@width, @height)
