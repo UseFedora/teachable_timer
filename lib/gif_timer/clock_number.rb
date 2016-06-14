@@ -14,7 +14,7 @@ module GifTimer
                    font_family: "helvetica",
                    point_size: 192,
                    caption_point_size: 84,
-                   caption_text: "DAYS",
+                   caption_text: "MINUTES",
                    fill: "black"
                    )
       @width = width
@@ -22,8 +22,8 @@ module GifTimer
       @number = number
       @max = (max == 0) ? 1 : max
       percentage = @number.to_f/@max
-      #@percent_complete = percentage.nan? ? 1.0 : percentage
-      @percent_complete = percentage.nan? ? 1.0 : 1.0 # for 0 circle
+      @percent_complete = percentage.nan? ? 1.0 : percentage
+      #@percent_complete = percentage.nan? ? 1.0 : 1.0 # for 0 circle
       @text = pad_number(number: @number)
       @font_family = font_family
       @point_size = point_size
@@ -46,7 +46,7 @@ module GifTimer
     def generate_image(folder:)
       add_time_remaining_text
       add_caption_text
-      add_circle if @number >= 0
+      add_circle if @number > 0
       canvas.scale!(0.5)
       canvas.write("#{folder}/#{@number}.gif")
     end
