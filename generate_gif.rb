@@ -41,3 +41,32 @@ def combine_images(image_paths=["tmp/0.gif","tmp/1.gif"])
   end
   image_canvas.push(image_row.append(false))
 end
+
+
+
+
+
+
+
+def time_parts(duration_in_seconds)
+  parts = {
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  }
+  parts[:seconds] = duration_in_seconds % 60
+  duration_without_seconds = duration_in_seconds - parts[:seconds]
+  parts[:minutes] = (duration_without_seconds/60) % 60
+
+  total_hours = (duration_without_seconds/60 - parts[:minutes]) / 60
+  parts[:hours] = total_hours % 24
+  parts[:days] = (total_hours - parts[:hours])/24
+  parts
+end
+
+def create_durations(duration_in_seconds=7261, frames: 60)
+  (1..frames).to_a.map do |offset|
+    time_parts(duration_in_seconds - offset)
+  end
+end
