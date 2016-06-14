@@ -39,7 +39,7 @@ module GifTimer
     end
 
     def self.generate(number:, folder:)
-      image = new(number: number).scale!(0.5)
+      image = new(number: number)
       image.generate_image(folder: folder)
     end
 
@@ -47,6 +47,7 @@ module GifTimer
       add_time_remaining_text
       add_caption_text
       add_circle if @number >= 0
+      canvas.scale!(0.5)
       canvas.write("#{folder}/#{@number}.gif")
     end
 
