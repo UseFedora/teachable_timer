@@ -10,13 +10,13 @@ module GifTimer
                    font_family: "helvetica",
                    point_size: 32,
                    caption_point_size: 14,
-                   caption_text: "minutes"
+                   caption_text: "minutes",
                    fill: "blue"
                    )
       @width = width
       @height = height
       @number = number
-      @text = number.to_s
+      @text = pad_number(num: @number)
       @percent_complete = number.to_f/max
       @font_family = font_family
       @point_size = point_size
@@ -25,6 +25,12 @@ module GifTimer
       @fill = fill
       @canvas = Magick::ImageList.new
       @canvas.new_image(width, height)
+    end
+
+    def pad_number(num: 0)
+      result = num
+      result = "0#{num}" if num < 10
+      result.to_s
     end
 
     def self.generate(number:, folder:)
@@ -54,14 +60,14 @@ module GifTimer
       text_layer.font_family = font_family
       text_layer.pointsize = @caption_point_size
       text_layer.gravity = Magick::CenterGravity
-      text_layer.annotate(@canvas, 0,0,0,25, @caption_text) {
+      text_layer.annotate(@canvas, 0,0,0,50, @caption_text) {
         self.fill = "blue"
       }
     end
 
     def add_circle
       radius = @height / 3.2
-      degrees_complete = (@percent_complete * 365).to_i
+      degrees_complete = (@percent_complete * 360).to_i
       circle = Magick::Draw.new
       circle.stroke(fill)
       circle.fill_opacity(0)
