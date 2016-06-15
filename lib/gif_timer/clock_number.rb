@@ -47,8 +47,9 @@ module GifTimer
       add_time_remaining_text
       add_caption_text
       add_circle if @number > 0
-      canvas.scale!(0.5)
-      canvas.write("#{folder}/#{@number}.gif")
+      @canvas.scale!(0.5)
+      @canvas = @canvas.optimize_layers(Magick::OptimizeLayer)
+      @canvas.write("#{folder}/#{@number}.gif")
     end
 
     def add_time_remaining_text

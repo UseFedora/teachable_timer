@@ -66,7 +66,7 @@ def create_gif(start_time:, end_time:, output_path:, frames: 60)
   image_list.delay = 100
 
   # Write gif to file
- # image_list = image_list.optimize_layers(Magick::OptimizeLayer)
+  image_list = image_list.optimize_layers(Magick::OptimizeLayer)
   image_list.write(output_path)
 end
 
