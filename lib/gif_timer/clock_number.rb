@@ -38,7 +38,7 @@ module GifTimer
       (number < 10) ? "0#{number}" : number.to_s
     end
 
-    def self.generate(number:, folder:)
+    def self.generate(number:, folder:, caption_text:)
       image = new(number: number)
       image.generate_image(folder: folder)
     end
