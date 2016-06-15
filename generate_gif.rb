@@ -51,16 +51,16 @@ def create_gif(start_time:, end_time:, output_path:, frames: 60)
   durations = create_durations(time_difference, frames: frames)
   image_parts = durations.map do |duration|
     duration.map do |part, time|
-      "frames/#{part}/#{time.to_i}.gif"
+      "./frames/#{part}/#{time.to_i}.gif"
     end
   end
 
-  FileUtils.mkdir_p("tmp/combined/")
+  FileUtils.mkdir_p("./tmp/combined/")
   image_parts.each_with_index do |image_array, index|
     image_list = combine_images(image_array)
-    image_list.write("tmp/combined/#{index}.gif")
+    image_list.write("./tmp/combined/#{index}.gif")
   end
-  frames = (0...frames).to_a.map {|i| "tmp/combined/#{i}.gif" }
+  frames = (0...frames).to_a.map {|i| "./tmp/combined/#{i}.gif" }
   image_list = Magick::ImageList.new(*frames)
    # delay 1 second between frames
   image_list.delay = 100
