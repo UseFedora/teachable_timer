@@ -45,8 +45,15 @@ end
 #  {:days=>27, :hours=>23, :minutes=>57, :seconds=>1},
 
 
-def create_gif(start_time:, end_time:, output_path:, frames: 60)
-  time_difference = end_time - start_time
+def create_gif(time_difference:, frames: 60)
+  seconds_offset = time_difference % 60
+  time_difference_rounded_to_nearest_minute = time_difference - seconds_offset
+  time_difference = time_difference - seconds_offset + 47
+  output_path = "./gifs/#{time_difference_rounded_to_nearest_minute}.gif"
+
+  # Return early if we've already created this gif
+  return output_path if File.exists? output_path
+
   durations = create_durations(time_difference, frames: frames)
   image_parts = durations.map do |duration|
     duration.map do |part, time|
@@ -67,6 +74,7 @@ def create_gif(start_time:, end_time:, output_path:, frames: 60)
   # Write gif to file
   image_list = image_list.optimize_layers(Magick::OptimizeLayer)
   image_list.write(output_path)
+  return output_path
 end
 
 # end_time = Time.now + 180
