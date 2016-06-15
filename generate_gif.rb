@@ -3,7 +3,7 @@
 # between 0 and 60, then generates a gif from them in tmp/animate.gif
 
 require "fileutils"
-
+require "rmagick"
 def combine_images(image_paths=[])
   image_row = Magick::ImageList.new
   image_canvas = Magick::ImageList.new
