@@ -133,5 +133,6 @@ image_list = Magick::ImageList.new(*frames)
  # delay 1 second between frames
 image_list.delay = 100
 # Write gif to file
+image_list = image_list.optimize_layers(Magick::OptimizeLayer)
 image_list.write("proof_of_concept.gif")
 
