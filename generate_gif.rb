@@ -53,19 +53,6 @@ captions = [:days, :hours, :minutes, :seconds]
 #   generator.generate_image(folder: frames_folder)
 # end
 
-
-#GifTimer::ClockNumber.generate(number: i, folder: frames_folder)
-# combine the frames into one image
-=begin
-frames = (start_point..end_point).to_a.map {|i| "#{frames_folder}/#{i}.gif" }.reverse
-image_list = Magick::ImageList.new(*frames)
- # delay 1 second between frames
-image_list.delay = 100
-# Write gif to file
-image_list.write("proof_of_concept.gif")
-=end
-
-
 def combine_images(image_paths=["tmp/0.gif","tmp/1.gif"])
   image_row = Magick::ImageList.new
   image_canvas = Magick::ImageList.new
@@ -99,7 +86,11 @@ def create_durations(duration_in_seconds=7261, frames: 60)
   end
 end
 
+end_time = Time.now + 60*60*24*28+10
+begin_time = Time.now
+diff_time = end_time - begin_time
 
+durations = create_durations(diff_time)
 =begin
 durations = {:days=>27, :hours=>23, :minutes=>57, :seconds=>11},
  {:days=>27, :hours=>23, :minutes=>57, :seconds=>10},
@@ -108,16 +99,7 @@ durations = {:days=>27, :hours=>23, :minutes=>57, :seconds=>11},
  {:days=>27, :hours=>23, :minutes=>57, :seconds=>2},
  {:days=>27, :hours=>23, :minutes=>57, :seconds=>1},
 =end
-
-end_time = Time.now + 60*60*24*28+10
-begin_time = Time.now
-diff_time = end_time - begin_time
-
-durations = create_durations(diff_time)
-
 image_parts = durations.map do |duration|
-
-  # {:days=>27, :hours=>23, :minutes=>57, :seconds=>1}
   duration.map do |part, time|
     "frames/#{part}/#{time.to_i}.gif"
   end
@@ -135,4 +117,3 @@ image_list.delay = 100
 # Write gif to file
 image_list = image_list.optimize_layers(Magick::OptimizeLayer)
 image_list.write("proof_of_concept.gif")
-
