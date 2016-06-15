@@ -1,6 +1,8 @@
 # A sample Gemfile
 source "https://rubygems.org"
 gem "rmagick"
+gem "sinatra"
+gem "puma"
 
 
 group :test do

@@ -17,6 +17,10 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (3.4.0)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
     rmagick (2.15.4)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
@@ -31,8 +35,13 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    sinatra (1.4.7)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
     slop (3.6.0)
     thread_safe (0.3.5)
+    tilt (2.0.4)
     time_difference (0.4.2)
       activesupport
     tzinfo (1.2.2)
@@ -43,8 +52,10 @@ PLATFORMS
 
 DEPENDENCIES
   pry
+  puma
   rmagick
   rspec
+  sinatra
   time_difference
 
 BUNDLED WITH
