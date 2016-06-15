@@ -71,9 +71,7 @@ module GifTimer
 
     def add_circle
       radius = @height / 3.2
-      puts @percent_complete
       degrees_complete = (@percent_complete * 360).to_i
-      puts degrees_complete
       circle = Magick::Draw.new
       circle.stroke(@fill)
       circle.fill_opacity(0)
