@@ -1,8 +1,7 @@
-require "rmagick"
-
 module GifTimer
 
-  class ClockNumber
+  # Class TimerPart is used for generating each part of the time (days/hours/minutes/seconds)
+  class TimerPart
 
     attr_reader :canvas, :width, :height, :font_family, :fill, :point_size, :text
 
@@ -23,7 +22,6 @@ module GifTimer
       @max = max
       percentage = @number.to_f/@max
       @percent_complete = percentage.nan? ? 1.0 : percentage
-      #@percent_complete = percentage.nan? ? 1.0 : 1.0 # for 0 circle
       @text = pad_number(number: @number)
       @font_family = font_family
       @point_size = point_size

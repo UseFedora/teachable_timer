@@ -1,6 +1,6 @@
 #generate the frames
 require "fileutils"
-require_relative "lib/gif_timer/clock_number.rb"
+require_relative "lib/gif_timer"
 
 CLOCK_PARTS = [
   {
@@ -25,11 +25,11 @@ CLOCK_PARTS = [
   }
 ]
 
-def generate_clock_parts(clock_part)
+def generate_timer_parts(clock_part)
   frames_folder = "frames/#{clock_part[:caption_text]}"
   FileUtils.mkdir_p(frames_folder)
   (clock_part[:start_point]..clock_part[:end_point]).to_a.each do |i|
-    generator = GifTimer::ClockNumber.new(number: i,
+    generator = GifTimer::TimerPart.new(number: i,
       max: clock_part[:end_point],
       caption_text: clock_part[:caption_text],
       fill: "gray"
@@ -38,6 +38,6 @@ def generate_clock_parts(clock_part)
   end
 end
 
-CLOCK_PARTS.each do |clock_part|
-  generate_clock_parts(clock_part)
+CLOCK_PARTS.each do |timer_part|
+  generate_timer_parts(timer_part)
 end

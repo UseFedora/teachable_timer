@@ -2,7 +2,6 @@
 # this generates an image with a circle around it for every number
 # between 0 and 60, then generates a gif from them in tmp/animate.gif
 
-require_relative "lib/gif_timer/clock_number.rb"
 require "fileutils"
 
 def combine_images(image_paths=[])
