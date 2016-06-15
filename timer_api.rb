@@ -19,7 +19,7 @@ get '/api/timer.gif' do
 
     output_path = "./tmp/#{start_time}-#{end_time}.gif"
     create_gif(start_time: start_time, end_time: end_time, output_path: output_path)
-    send_file(output_path, filename: output_path, type: 'image/gif', disposition: :inline)
+    send_file(output_path, filename: "timer.gif", type: 'image/gif', disposition: :inline)
   end
 end
 
