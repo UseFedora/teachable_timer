@@ -45,9 +45,10 @@ end
 #  {:days=>27, :hours=>23, :minutes=>57, :seconds=>2},
 #  {:days=>27, :hours=>23, :minutes=>57, :seconds=>1},
 
-def create_gif(start_time:, end_time:, output_path:)
+
+def create_gif(start_time:, end_time:, output_path:, frames: 60)
   time_difference = end_time - start_time
-  durations = create_durations(time_difference, frames: 60)
+  durations = create_durations(time_difference, frames: frames)
   image_parts = durations.map do |duration|
     duration.map do |part, time|
       "frames/#{part}/#{time.to_i}.gif"
@@ -59,16 +60,17 @@ def create_gif(start_time:, end_time:, output_path:)
     image_list = combine_images(image_array)
     image_list.write("tmp/combined/#{index}.gif")
   end
-  frames = (0..59).to_a.map {|i| "tmp/combined/#{i}.gif" }
+  frames = (0...frames).to_a.map {|i| "tmp/combined/#{i}.gif" }
   image_list = Magick::ImageList.new(*frames)
    # delay 1 second between frames
   image_list.delay = 100
+
   # Write gif to file
   image_list = image_list.optimize_layers(Magick::OptimizeLayer)
   image_list.write(output_path)
 end
 
-end_time = Time.now + 60*60*24*28+10
-start_time = Time.now
-output_path = "proof_of_concept.gif"
-create_gif(start_time: start_time, end_time: end_time, output_path: output_path)
+# end_time = Time.now + 180
+# start_time = Time.now
+# output_path = "proof_of_concept.gif"
+# create_gif(start_time: start_time, end_time: end_time, output_path: output_path)
