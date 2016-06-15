@@ -13,45 +13,45 @@ caption_text = "seconds"
 captions = [:days, :hours, :minutes, :seconds]
 
 # generate the frames
-caption_text = "seconds"
-frames_folder = "tmp/frames/#{caption_text}"
-FileUtils.mkdir_p(frames_folder)
-end_point = 60
-start_point = 0
-(start_point..end_point).to_a.each do |i|
-  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
-  generator.generate_image(folder: frames_folder)
-end
+# caption_text = "seconds"
+# frames_folder = "tmp/frames/#{caption_text}"
+# FileUtils.mkdir_p(frames_folder)
+# end_point = 60
+# start_point = 0
+# (start_point..end_point).to_a.each do |i|
+#   generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
+#   generator.generate_image(folder: frames_folder)
+# end
 
-caption_text = "minutes"
-frames_folder = "tmp/frames/#{caption_text}"
-FileUtils.mkdir_p(frames_folder)
-end_point = 60
-start_point = 0
-(start_point..end_point).to_a.each do |i|
-  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
-  generator.generate_image(folder: frames_folder)
-end
+# caption_text = "minutes"
+# frames_folder = "tmp/frames/#{caption_text}"
+# FileUtils.mkdir_p(frames_folder)
+# end_point = 60
+# start_point = 0
+# (start_point..end_point).to_a.each do |i|
+#   generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
+#   generator.generate_image(folder: frames_folder)
+# end
 
-caption_text = "hours"
-frames_folder = "tmp/frames/#{caption_text}"
-FileUtils.mkdir_p(frames_folder)
-end_point = 24
-start_point = 0
-(start_point..end_point).to_a.each do |i|
-  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
-  generator.generate_image(folder: frames_folder)
-end
+# caption_text = "hours"
+# frames_folder = "tmp/frames/#{caption_text}"
+# FileUtils.mkdir_p(frames_folder)
+# end_point = 24
+# start_point = 0
+# (start_point..end_point).to_a.each do |i|
+#   generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
+#   generator.generate_image(folder: frames_folder)
+# end
 
-caption_text = "days"
-frames_folder = "tmp/frames/#{caption_text}"
-FileUtils.mkdir_p(frames_folder)
-end_point = 99
-start_point = 0
-(start_point..end_point).to_a.each do |i|
-  generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
-  generator.generate_image(folder: frames_folder)
-end
+# caption_text = "days"
+# frames_folder = "tmp/frames/#{caption_text}"
+# FileUtils.mkdir_p(frames_folder)
+# end_point = 99
+# start_point = 0
+# (start_point..end_point).to_a.each do |i|
+#   generator = GifTimer::ClockNumber.new(number: i, max: end_point, caption_text: caption_text, fill: "gray")
+#   generator.generate_image(folder: frames_folder)
+# end
 
 
 #GifTimer::ClockNumber.generate(number: i, folder: frames_folder)
@@ -76,33 +76,6 @@ def combine_images(image_paths=["tmp/0.gif","tmp/1.gif"])
   image_canvas.push(image_row.append(false))
 end
 
-=begin
-durations = {:days=>27, :hours=>23, :minutes=>57, :seconds=>11},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>10},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>9},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>3},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>2},
- {:days=>27, :hours=>23, :minutes=>57, :seconds=>1},
-=end
-
-end_time = Time.now + 60*60*24*28
-begin_time = Time.now
-diff_time = begin_time - end_time
-
-durations = create_durations(diff_time)
-
-durations.each do |duration|
-
-  # {:days=>27, :hours=>23, :minutes=>57, :seconds=>1}
-  duration.each_pair do |part, time|
-
-    combine_images(["tmp/0.gif","tmp/1.gif"])
-
-  end
-
-end
-
-
 def time_parts(duration_in_seconds)
   parts = {
     days: 0,
@@ -125,3 +98,40 @@ def create_durations(duration_in_seconds=7261, frames: 60)
     time_parts(duration_in_seconds - offset)
   end
 end
+
+
+=begin
+durations = {:days=>27, :hours=>23, :minutes=>57, :seconds=>11},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>10},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>9},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>3},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>2},
+ {:days=>27, :hours=>23, :minutes=>57, :seconds=>1},
+=end
+
+end_time = Time.now + 60*60*24*28+10
+begin_time = Time.now
+diff_time = end_time - begin_time
+
+durations = create_durations(diff_time)
+
+image_parts = durations.map do |duration|
+
+  # {:days=>27, :hours=>23, :minutes=>57, :seconds=>1}
+  duration.map do |part, time|
+    "frames/#{part}/#{time.to_i}.gif"
+  end
+end
+
+FileUtils.mkdir_p("combined/")
+image_parts.each_with_index do |image_array, index|
+  image_list = combine_images(image_array)
+  image_list.write("combined/#{index}.gif")
+end
+frames = (0..59).to_a.map {|i| "combined/#{i}.gif" }
+image_list = Magick::ImageList.new(*frames)
+ # delay 1 second between frames
+image_list.delay = 100
+# Write gif to file
+image_list.write("proof_of_concept.gif")
+
