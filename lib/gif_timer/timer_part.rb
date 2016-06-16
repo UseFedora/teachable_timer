@@ -1,5 +1,4 @@
 module GifTimer
-
   # Class TimerPart is used for generating each part of the time (days/hours/minutes/seconds)
   class TimerPart
     attr_reader :canvas, :width, :height, :font_family, :fill, :point_size, :text

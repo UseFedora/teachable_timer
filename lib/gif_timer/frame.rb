@@ -5,6 +5,7 @@ module GifTimer
     FRAME_FOLDER = "./tmp/frames"
     COMPONENT_FOLDER = "./timer_parts"
     COMPONENT_FORMAT="png"
+
     def initialize(time_difference)
       @time_difference = time_difference
     end
@@ -15,17 +16,17 @@ module GifTimer
       frame
     end
 
+    def save
+      image_list = combine_images(component_image_paths)
+      image_list.write(path)
+    end
+
     def path
       "#{FRAME_FOLDER}/#{file_name}.gif"
     end
 
     def exist?
       File.exist?(path)
-    end
-
-    def save
-      image_list = combine_images(component_image_paths)
-      image_list.write(path)
     end
 
     private

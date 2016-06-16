@@ -1,19 +1,18 @@
 module GifTimer
   class Gif
     attr_reader :time_difference
-
     FRAME_COUNT = 60
     FRAME_DELAY = 100
     GIF_FOLDER = "./gifs"
+
+    def initialize(time_difference)
+      @time_difference = time_difference
+    end
 
     def self.find_or_create(time_difference)
       frame = new(time_difference)
       frame.save unless frame.exist?
       frame
-    end
-
-    def initialize(time_difference)
-      @time_difference = time_difference
     end
 
     def save
@@ -40,5 +39,6 @@ module GifTimer
     def frame_durations
       (time_difference..(time_difference + FRAME_COUNT)).to_a.reverse
     end
+    DEF
   end
 end
