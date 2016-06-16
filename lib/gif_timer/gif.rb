@@ -39,6 +39,5 @@ module GifTimer
     def frame_durations
       (time_difference..(time_difference + FRAME_COUNT)).to_a.reverse
     end
-    DEF
   end
 end
