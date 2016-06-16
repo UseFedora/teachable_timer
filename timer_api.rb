@@ -19,7 +19,7 @@ get '/api/timer.gif' do
     # handle finished timer case
   end
   # round to nearest minute for caching
-  rounded_time_difference = (time_difference/60) * 60)
+  rounded_time_difference = ((time_difference/60) * 60)
   gif = GifTimer::Gif.find_or_create(rounded_time_difference)
 
   send_file(gif.path, filename: "timer.gif", type: 'image/gif', disposition: :inline)
