@@ -15,7 +15,7 @@ get '/api/timer.gif' do
   end_time = timestamp.to_i
   time_difference =  end_time - start_time
   if start_time > end_time
-    time_difference = 3000
+    time_difference = 0
     # handle finished timer case
   end
   # round to nearest minute for caching

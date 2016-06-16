@@ -45,10 +45,12 @@ module GifTimer
       parts[:seconds] = @time_difference % 60
       time_difference_without_seconds = @time_difference - parts[:seconds]
       parts[:minutes] = (time_difference_without_seconds/60) % 60
-
+      parts[:minutes] = 0 if parts[:minutes] < 0
       total_hours = (time_difference_without_seconds/60 - parts[:minutes]) / 60
       parts[:hours] = total_hours % 24
+      parts[:hours] = 0 if parts[:hours] < 0
       parts[:days] = (total_hours - parts[:hours])/24
+      parts[:days] = 0 if parts[:days] < 0
       parts
     end
 
