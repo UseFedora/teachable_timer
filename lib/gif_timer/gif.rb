@@ -10,9 +10,9 @@ module GifTimer
     end
 
     def self.find_or_create(time_difference)
-      frame = new(time_difference)
-      frame.save unless frame.exist?
-      frame
+      gif = new(time_difference)
+      gif.save unless frame.exist?
+      gif
     end
 
     def save
