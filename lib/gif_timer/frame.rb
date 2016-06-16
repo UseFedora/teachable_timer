@@ -17,8 +17,7 @@ module GifTimer
     end
 
     def save
-      image_list = combine_images(component_image_paths)
-      image_list.write(path)
+      ImageMagick.combine_images(paths: component_image_paths, output_path: path)
     end
 
     def path
@@ -57,17 +56,6 @@ module GifTimer
       timer_part_image_paths = time_parts.map do |part, time|
         "#{COMPONENT_FOLDER}/#{part}/#{time.to_i}.#{COMPONENT_FORMAT}"
       end
-    end
-
-    # Combine an array of images from left to right
-    def combine_images(image_paths=[])
-      image_row = Magick::ImageList.new
-      image_canvas = Magick::ImageList.new
-      image_paths.each do |path|
-        image = Magick::Image.read(path).first
-        image_row.push(image)
-      end
-      image_canvas.push(image_row.append(false))
     end
   end
 end

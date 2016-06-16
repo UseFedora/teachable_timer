@@ -16,10 +16,8 @@ module GifTimer
     end
 
     def save
-      frame_paths = frames.map {|frame| frame.path }
-      image_list = Magick::ImageList.new(*frame_paths)
-      image_list.delay = FRAME_DELAY
-      image_list.write(path)
+      frame_paths = frames.map(&:path)
+      ImageMagick.create_gif(frames: frame_paths, delay: FRAME_DELAY, output_path: path)
     end
 
     def path
